@@ -1,0 +1,261 @@
+:root {
+  /* Color tokens */
+  --color-ffffff: #ffffff;
+  --color-292929: #292929;
+  --color-000000: #000000;
+  --color-e9fffa: #e9fffa;
+  --color-979797: #979797;
+  --color-fff2af: #fff2af;
+  --color-129575: #129575;
+  --color-dadada: #dadada;
+  --color-4cd964: #4cd964;
+  --color-121212: #121212;
+  --color-ff9c00: #ff9c00;
+  --color-ffc107: #ffc107;
+  --color-ff3d00: #ff3d00;
+  --color-4caf50: #4caf50;
+  --color-1976d2: #1976d2;
+  --color-035b81: #035b81;
+  --color-d9d9d9: #d9d9d9;
+  --color-484848: #484848;
+  --color-303030: #303030;
+  --color-a9a9a9: #a9a9a9;
+  --color-ffa61a: #ffa61a;
+  --color-ffce80: #ffce80;
+  --color-71b1a1: #71b1a1;
+  --color-130f26: #130f26;
+  --color-c1c1c1: #c1c1c1;
+  --color-ffe1b3: #ffe1b3;
+  --color-ffad30: #ffad30;
+  --color-dbebE7: #dbebe7;
+  --color-898989: #898989;
+  --color-292d32: #292d32;
+  --color-181818: #181818;
+  --color-c4c4c4: #c4c4c4;
+  --color-797979: #797979;
+  --color-808a96: #808a96;
+  --color-ceecd7: #ceecd7;
+  --color-31b057: #31b057;
+  --color-ffe1e7: #ffe1e7;
+  --color-fd3654: #fd3654;
+  --color-ffba4d: #ffba4d;
+  --color-d8d8d8: #d8d8d8;
+  --color-f6faf9: #f6faf9;
+  --color-afd3ca: #afd3ca;
+  --color-f4f4f4: #f4f4f4;
+  --color-9747ff: #9747ff;
+  --color-828282: #828282;
+
+  /* Typography tokens based on design system (common ones used on this screen) */
+  --font-poppins: "Poppins", system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue", Arial, "Noto Sans", "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", sans-serif;
+  --font-open-sans: "Open Sans", Arial, sans-serif;
+  --font-sf-pro: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Helvetica Neue", Helvetica, Arial, sans-serif;
+
+  /* Derived typography sizes/weights */
+  --typo-hello-size: 30px;       /* typo_60 */
+  --typo-hello-weight: 600;
+  --typo-hello-line: 45px;
+  --typo-hello-color: var(--color-000000);
+
+  --typo-subtitle-size: 20px;    /* typo_61 */
+  --typo-subtitle-weight: 400;
+  --typo-subtitle-line: 30px;
+  --typo-subtitle-color: var(--color-121212);
+
+  --typo-link-size: 11px;        /* typo_62 */
+  --typo-link-weight: 400;
+  --typo-link-line: 16.5px;
+  --typo-link-color: var(--color-ff9c00);
+
+  --typo-caption-11-500-gray-size: 11px; /* typo_64 */
+  --typo-caption-11-500-gray-weight: 500;
+  --typo-caption-11-500-gray-line: 16.5px;
+  --typo-caption-11-500-gray-color: var(--color-d9d9d9);
+
+  --typo-placeholder-11-400-gray-size: 11px; /* typo_65 */
+  --typo-placeholder-11-400-gray-weight: 400;
+  --typo-placeholder-11-400-gray-line: 16.5px;
+  --typo-placeholder-11-400-gray-color: var(--color-d9d9d9);
+
+  --typo-label-14-400-size: 14px; /* typo_66 */
+  --typo-label-14-400-weight: 400;
+  --typo-label-14-400-line: 21px;
+  --typo-label-14-400-color: var(--color-121212);
+
+  --typo-button-16-600-size: 16px; /* typo_58 */
+  --typo-button-16-600-weight: 600;
+  --typo-button-16-600-line: 24px;
+  --typo-button-16-600-color: var(--color-ffffff);
+
+  --typo-time-size: 15px;          /* typo_67 */
+  --typo-time-weight: 500;
+  --typo-time-line: 17.9px;
+  --typo-time-color: var(--color-303030);
+
+  /* Sizing tokens used on this screen */
+  --radius-10: 10px;
+  --radius-100: 100px;
+  --border-1: 1px;
+  --border-1-5: 1.5px;
+  --shadow-0: 0 0 5px 3px #696969;
+
+  /* Layout helpers */
+  --screen-width: 375px;
+  --screen-height: 812px;
+  --page-bg: var(--color-ffffff);
+
+  /* Component specific tokens */
+  --input-border: var(--color-d9d9d9);
+  --input-radius: var(--radius-10);
+  --cta-bg: var(--color-129575);
+  --cta-radius: var(--radius-10);
+  --divider-color: var(--color-d9d9d9);
+  --social-radius: var(--radius-10);
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html, body {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  font-family: var(--font-poppins);
+  background: var(--page-bg);
+  color: var(--typo-hello-color);
+}
+
+.container-375 {
+  width: 100%;
+  max-width: var(--screen-width);
+  min-height: var(--screen-height);
+  margin: 0 auto;
+  background: var(--page-bg);
+  position: relative;
+  overflow: hidden;
+}
+
+/* Visually hidden for accessibility when we still want to keep content available to screen readers */
+.visually-hidden {
+  position: absolute !important;
+  height: 1px; width: 1px;
+  overflow: hidden;
+  clip: rect(1px,1px,1px,1px);
+  white-space: nowrap;
+}
+
+/* Shared Button base */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  cursor: pointer;
+  text-decoration: none;
+}
+
+/* Generic input wrapper */
+.input-field {
+  width: 315px;
+}
+
+.input-label {
+  font-size: var(--typo-label-14-400-size);
+  line-height: var(--typo-label-14-400-line);
+  font-weight: var(--typo-label-14-400-weight);
+  color: var(--typo-label-14-400-color);
+  display: block;
+  margin-bottom: 6px;
+}
+
+.input-control {
+  width: 100%;
+  height: 55px;
+  border: var(--border-1-5) solid var(--input-border);
+  border-radius: var(--input-radius);
+  padding: 0 20px;
+  font-size: 14px;
+  color: var(--color-121212);
+}
+
+.input-control::placeholder {
+  font-size: var(--typo-placeholder-11-400-gray-size);
+  line-height: var(--typo-placeholder-11-400-gray-line);
+  color: var(--typo-placeholder-11-400-gray-color);
+}
+
+.divider {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--typo-caption-11-500-gray-color);
+  font-size: var(--typo-caption-11-500-gray-size);
+  font-weight: var(--typo-caption-11-500-gray-weight);
+  line-height: var(--typo-caption-11-500-gray-line);
+}
+
+.divider .line {
+  flex: 1;
+  height: 0;
+  border-top: 1px solid var(--divider-color);
+}
+
+/* Social icon button base (44x44, radius 10, with subtle shadow) */
+.social-btn {
+  width: 44px;
+  height: 44px;
+  border-radius: var(--social-radius);
+  background: var(--color-ffffff);
+  box-shadow: var(--shadow-0);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Status bar and home indicator placeholders */
+.status-bar {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: var(--screen-width);
+  height: 44px;
+}
+
+.status-bar-time {
+  position: absolute;
+  left: 0;
+  top: 22px;
+  width: 180px;
+  height: 22px;
+  padding-left: 29.5px; /* aligns numerically close to figma text x=455.5 within container x=426 */
+  display: flex;
+  align-items: center;
+  font-family: var(--font-sf-pro);
+  font-size: var(--typo-time-size);
+  font-weight: var(--typo-time-weight);
+  line-height: var(--typo-time-line);
+  color: var(--typo-time-color);
+}
+
+.home-indicator {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: var(--screen-width);
+  height: 34px;
+}
+
+.home-indicator .bar {
+  width: 135px;
+  height: 5px;
+  background: var(--color-121212);
+  border-radius: var(--radius-100);
+  margin: 0 auto;
+  position: relative;
+  top: 21px; /* 34 container height with bar vertically centered per figma y positions */
+}
