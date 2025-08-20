@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import '../styles/common.css';
 import '../styles/sign-in.css';
 
 // PUBLIC_INTERFACE
-export default function SignIn() {
+export default function SignIn({ onSignedIn }) {
   /**
    * SignIn screen translated from Figma-derived HTML/CSS.
    * - Preserves layout and styling using ported CSS tokens and classes
@@ -12,6 +13,7 @@ export default function SignIn() {
    */
   const [form, setForm] = useState({ email: '', password: '' });
   const [errors, setErrors] = useState({});
+  const navigate = useNavigate();
 
   const update = (e) => {
     const { name, value } = e.target;
@@ -33,11 +35,10 @@ export default function SignIn() {
     const er = validate();
     setErrors(er);
     if (Object.keys(er).length > 0) return;
-    // Replace with real auth integration; for now, mirror original interaction
+    if (onSignedIn) onSignedIn(form.email);
     // eslint-disable-next-line no-alert
     alert('Sign In clicked');
-    // eslint-disable-next-line no-console
-    console.log('Sign In clicked:', form);
+    navigate('/');
   };
 
   const clickSocial = (network) => {
@@ -105,7 +106,7 @@ export default function SignIn() {
 
         {/* Forgot Password */}
         <p className="forgot-wrap">
-          <a href="#forgot" className="forgot-link" onClick={(e) => e.preventDefault()}>Forgot Password?</a>
+          <Link to="/forgot" className="forgot-link">Forgot Password?</Link>
         </p>
 
         {/* CTA */}
@@ -153,9 +154,9 @@ export default function SignIn() {
       {/* Sign up prompt */}
       <p className="signup-text">
         Don’t have an account?{' '}
-        <a href="#signup" className="signup-link" onClick={(e) => e.preventDefault()}>
+        <Link to="/signup" className="signup-link">
           Sign up
-        </a>
+        </Link>
       </p>
 
       {/* Home indicator placeholder */}
