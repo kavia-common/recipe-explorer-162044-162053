@@ -1,0 +1,183 @@
+.sign-in-screen {
+  background: var(--color-ffffff);
+  width: 100%;
+  max-width: var(--screen-width);
+  min-height: var(--screen-height);
+  position: relative;
+  padding: 44px 30px 34px; /* top for status bar, sides approximate, bottom for home indicator */
+  display: grid;
+  grid-template-rows: auto auto auto auto auto 1fr;
+  row-gap: 24px;
+}
+
+/* Title group */
+.title-group {
+  margin-top: 50px; /* visually align after status bar */
+}
+
+.hello {
+  margin: 0 0 6px 0;
+  font-family: var(--font-poppins);
+  font-size: var(--typo-hello-size);
+  font-weight: var(--typo-hello-weight);
+  line-height: var(--typo-hello-line);
+  color: var(--typo-hello-color);
+}
+
+.welcome {
+  margin: 0;
+  font-family: var(--font-poppins);
+  font-size: var(--typo-subtitle-size);
+  font-weight: var(--typo-subtitle-weight);
+  line-height: var(--typo-subtitle-line);
+  color: var(--typo-subtitle-color);
+}
+
+/* Form fields layout */
+.form-stack {
+  display: grid;
+  row-gap: 30px; /* Match Figma spacing */
+}
+
+/* Forgot Password alignment */
+.forgot-wrap {
+  margin: 0;
+  text-align: left;
+}
+
+.forgot-link {
+  font-size: var(--typo-link-size);
+  line-height: var(--typo-link-line);
+  font-weight: var(--typo-link-weight);
+  color: var(--typo-link-color);
+  text-decoration: none;
+}
+
+/* CTA button */
+.cta {
+  width: 315px;
+  height: 60px;
+  border-radius: var(--cta-radius);
+  background: var(--cta-bg);
+  color: var(--typo-button-16-600-color);
+  gap: 10px;
+  margin-top: 8px;
+}
+
+.cta-label {
+  font-size: var(--typo-button-16-600-size);
+  font-weight: var(--typo-button-16-600-weight);
+  line-height: var(--typo-button-16-600-line);
+  color: var(--typo-button-16-600-color);
+}
+
+/* Arrow icon (20x20) matching figma instance sizing */
+.cta-icon {
+  position: relative;
+  width: 20px;
+  height: 20px;
+  display: inline-block;
+}
+
+.cta-icon .arrow-shaft {
+  position: absolute;
+  top: 9px;
+  left: 3px;
+  right: 3px;
+  height: 2px;
+  background: var(--color-000000); /* figma strokes use style black */
+  opacity: 1;
+}
+
+.cta-icon .arrow-head {
+  position: absolute;
+  right: 4px;
+  top: 4px;
+  width: 8px;
+  height: 8px;
+  border-top: 2px solid var(--color-000000);
+  border-right: 2px solid var(--color-000000);
+  transform: rotate(45deg);
+}
+
+/* Divider + text */
+.divider-wrap {
+  display: flex;
+  align-items: center;
+}
+
+.divider-text {
+  font-size: var(--typo-caption-11-500-gray-size);
+  font-weight: var(--typo-caption-11-500-gray-weight);
+  line-height: var(--typo-caption-11-500-gray-line);
+  color: var(--typo-caption-11-500-gray-color);
+}
+
+/* Social buttons row */
+.social-row {
+  display: flex;
+  gap: 25px; /* Spaced similar to Figma */
+}
+
+.social-btn.google {
+  position: relative;
+}
+
+.social-btn.google .g {
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  border-radius: 2px;
+}
+
+/* Approximate Google colors */
+.social-btn.google .g1 { /* yellow */
+  background: var(--color-ffc107);
+  top: 10px; left: 12px;
+}
+.social-btn.google .g2 { /* red */
+  background: var(--color-ff3d00);
+  top: 10px; left: 22px;
+}
+.social-btn.google .g3 { /* green */
+  background: var(--color-4caf50);
+  top: 20px; left: 12px;
+}
+.social-btn.google .g4 { /* blue */
+  background: var(--color-1976d2);
+  top: 20px; left: 22px;
+}
+
+/* Facebook icon: simple bold 'f' in brand-like color */
+.social-btn.facebook .fb-mark {
+  font-family: var(--font-poppins);
+  font-weight: 700;
+  color: var(--color-035b81);
+  font-size: 20px;
+  line-height: 1;
+}
+
+/* Signup text */
+.signup-text {
+  margin: 18px 0 0 0;
+  font-size: 11px; /* typo_63 size */
+  font-weight: 500; /* typo_63 weight */
+  line-height: 16.5px;
+  color: var(--color-000000);
+}
+
+.signup-link {
+  color: var(--color-000000);
+  text-decoration: underline;
+}
+
+/* Responsive tweaks */
+@media (max-width: 400px) {
+  .sign-in-screen {
+    padding-left: 20px;
+    padding-right: 20px;
+  }
+  .input-field, .cta {
+    width: 100%;
+  }
+}
