@@ -1,24 +1,41 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import '../styles/common.css';
-
-const SAMPLE_RECIPES = [
-  { id: '1', title: 'Classic Margherita Pizza', description: 'Fresh tomatoes, mozzarella, basil.', time: '30 min', tags: ['Italian', 'Vegetarian'], ingredients: ['Pizza dough', 'Tomato sauce', 'Fresh mozzarella', 'Basil', 'Olive oil', 'Salt'], steps: ['Preheat oven to 500°F (260°C).', 'Spread sauce on dough.', 'Add mozzarella and basil.', 'Bake 8–10 minutes until crust browns.'] },
-  { id: '2', title: 'Avocado Toast Deluxe', description: 'Sourdough, smashed avo, chili flakes.', time: '10 min', tags: ['Breakfast', 'Vegan'], ingredients: ['Sourdough bread', 'Avocado', 'Lemon', 'Salt', 'Chili flakes'], steps: ['Toast bread.', 'Mash avocado with salt and lemon.', 'Spread on toast and top with chili flakes.'] },
-  { id: '3', title: 'Chicken Tikka Masala', description: 'Creamy tomato curry with spices.', time: '45 min', tags: ['Indian'], ingredients: ['Chicken', 'Yogurt', 'Masala spices', 'Tomato puree', 'Cream', 'Onion', 'Garlic', 'Ginger'], steps: ['Marinate chicken.', 'Cook onion, garlic, ginger.', 'Add spices and tomato puree.', 'Add chicken and simmer.', 'Stir in cream.'] },
-  { id: '4', title: 'Berry Smoothie Bowl', description: 'Berries, banana, granola.', time: '8 min', tags: ['Healthy', 'Vegetarian'], ingredients: ['Frozen berries', 'Banana', 'Yogurt or plant milk', 'Granola'], steps: ['Blend berries and banana with yogurt.', 'Pour into bowl and top with granola.'] },
-];
+import { apiGetRecipeById } from '../services/apiClient';
 
 // PUBLIC_INTERFACE
 export default function RecipeDetailPage() {
-  /** Recipe details from route param id; shows ingredients and steps. */
+  /** Recipe details from route param id; shows ingredients and steps, backed by API. */
   const { id } = useParams();
-  const recipe = SAMPLE_RECIPES.find(r => r.id === id);
+  const [recipe, setRecipe] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [err, setErr] = useState('');
 
-  if (!recipe) {
+  useEffect(() => {
+    let mounted = true;
+    setLoading(true);
+    setErr('');
+    apiGetRecipeById(id)
+      .then((data) => {
+        if (!mounted) return;
+        setRecipe(data);
+      })
+      .catch((e) => {
+        if (!mounted) return;
+        setErr(e.status === 404 ? 'Recipe not found' : (e.message || 'Failed to load recipe'));
+      })
+      .finally(() => mounted && setLoading(false));
+    return () => { mounted = false; };
+  }, [id]);
+
+  if (loading) {
+    return <div style={{ padding: 16 }}><p>Loading recipe...</p></div>;
+  }
+
+  if (err || !recipe) {
     return (
       <div style={{ padding: 16 }}>
-        <p>Recipe not found. <Link to="/">Back to list</Link></p>
+        <p>{err || 'Recipe not found.'} <Link to="/">Back to list</Link></p>
       </div>
     );
   }
@@ -31,21 +48,21 @@ export default function RecipeDetailPage() {
       </div>
       <p style={{ color: '#666' }}>{recipe.description}</p>
       <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap', margin: '8px 0 16px' }}>
-        {recipe.tags.map(t => <span key={t} style={chipStyle}>{t}</span>)}
+        {(recipe.tags || []).map(t => <span key={t} style={chipStyle}>{t}</span>)}
       </div>
       <p style={{ fontSize: 14, color: '#555' }}>⏱ {recipe.time}</p>
 
       <section style={{ marginTop: 24 }}>
         <h3>Ingredients</h3>
         <ul>
-          {recipe.ingredients.map((ing, idx) => <li key={idx}>{ing}</li>)}
+          {(recipe.ingredients || []).map((ing, idx) => <li key={idx}>{ing}</li>)}
         </ul>
       </section>
 
       <section style={{ marginTop: 16 }}>
         <h3>Steps</h3>
         <ol>
-          {recipe.steps.map((s, idx) => <li key={idx}>{s}</li>)}
+          {(recipe.steps || []).map((s, idx) => <li key={idx}>{s}</li>)}
         </ol>
       </section>
     </article>

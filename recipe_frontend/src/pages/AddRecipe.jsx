@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import '../styles/common.css';
+import { apiAddRecipe } from '../services/apiClient';
 
 // PUBLIC_INTERFACE
 export default function AddRecipe() {
-  /** Add recipe form; on submit, alerts and navigates back home (stubbed persistence). */
+  /** Add recipe form; posts to API (mocked by default) and navigates to the created recipe. */
   const [form, setForm] = useState({
     title: '',
     description: '',
@@ -14,6 +15,7 @@ export default function AddRecipe() {
     steps: ''
   });
   const [errors, setErrors] = useState({});
+  const [submitting, setSubmitting] = useState(false);
   const navigate = useNavigate();
 
   const update = (e) => {
@@ -30,15 +32,28 @@ export default function AddRecipe() {
     return er;
   };
 
-  const onSubmit = (e) => {
+  const onSubmit = async (e) => {
     e.preventDefault();
     const er = validate();
     setErrors(er);
     if (Object.keys(er).length) return;
-    // Replace with actual API call
-    // eslint-disable-next-line no-alert
-    alert('Recipe added (stub). Returning to list.');
-    navigate('/');
+    setSubmitting(true);
+    try {
+      const payload = {
+        title: form.title,
+        description: form.description,
+        time: form.time,
+        tags: form.tags,
+        ingredients: form.ingredients,
+        steps: form.steps,
+      };
+      const created = await apiAddRecipe(payload);
+      navigate(`/recipes/${created.id}`);
+    } catch (e2) {
+      setErrors(prev => ({ ...prev, title: e2.message || 'Failed to add recipe' }));
+    } finally {
+      setSubmitting(false);
+    }
   };
 
   return (
@@ -79,7 +94,7 @@ export default function AddRecipe() {
         </div>
 
         <div style={{ display: 'flex', gap: 12 }}>
-          <button type="submit" className="btn" style={primaryBtn}>Save</button>
+          <button type="submit" className="btn" style={primaryBtn} disabled={submitting}>{submitting ? 'Saving...' : 'Save'}</button>
           <button type="button" className="btn" style={ghostBtn} onClick={() => navigate(-1)}>Cancel</button>
         </div>
       </form>

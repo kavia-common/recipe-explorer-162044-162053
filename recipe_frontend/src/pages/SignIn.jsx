@@ -2,17 +2,18 @@ import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import '../styles/common.css';
 import '../styles/sign-in.css';
+import { apiSignIn } from '../services/apiClient';
 
 // PUBLIC_INTERFACE
 export default function SignIn({ onSignedIn }) {
   /**
    * SignIn screen translated from Figma-derived HTML/CSS.
    * - Preserves layout and styling using ported CSS tokens and classes
-   * - Adds React state for inputs and simple validation
-   * - Keeps accessible labels, aria attributes, and keyboard-friendly buttons
+   * - Calls API for sign-in (mocked locally unless REACT_APP_API_BASE_URL is set)
    */
   const [form, setForm] = useState({ email: '', password: '' });
   const [errors, setErrors] = useState({});
+  const [submitting, setSubmitting] = useState(false);
   const navigate = useNavigate();
 
   const update = (e) => {
@@ -30,15 +31,23 @@ export default function SignIn({ onSignedIn }) {
     return er;
   };
 
-  const onSubmit = (e) => {
+  const onSubmit = async (e) => {
     e.preventDefault();
     const er = validate();
     setErrors(er);
     if (Object.keys(er).length > 0) return;
-    if (onSignedIn) onSignedIn(form.email);
-    // eslint-disable-next-line no-alert
-    alert('Sign In clicked');
-    navigate('/');
+
+    setSubmitting(true);
+    try {
+      const res = await apiSignIn({ email: form.email, password: form.password });
+      // Persist minimal auth data for the app (email via App.js)
+      if (onSignedIn) onSignedIn(res?.user?.email || form.email);
+      navigate('/');
+    } catch (err) {
+      setErrors(prev => ({ ...prev, password: err.message || 'Sign in failed' }));
+    } finally {
+      setSubmitting(false);
+    }
   };
 
   const clickSocial = (network) => {
@@ -110,8 +119,8 @@ export default function SignIn({ onSignedIn }) {
         </p>
 
         {/* CTA */}
-        <button className="btn cta" id="cta-sign-in" type="submit" aria-label="Sign In">
-          <span className="cta-label">Sign In</span>
+        <button className="btn cta" id="cta-sign-in" type="submit" aria-label="Sign In" disabled={submitting}>
+          <span className="cta-label">{submitting ? 'Signing In...' : 'Sign In'}</span>
           <span className="cta-icon" aria-hidden="true">
             <span className="arrow-shaft"></span>
             <span className="arrow-head"></span>

@@ -2,12 +2,14 @@ import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import '../styles/common.css';
 import '../styles/sign-in.css';
+import { apiSignUp } from '../services/apiClient';
 
 // PUBLIC_INTERFACE
 export default function SignUp({ onSignedUp }) {
-  /** SignUp screen styled similar to SignIn; stubs account creation. */
+  /** SignUp screen styled similar to SignIn; calls API for account creation. */
   const [form, setForm] = useState({ name: '', email: '', password: '' });
   const [errors, setErrors] = useState({});
+  const [submitting, setSubmitting] = useState(false);
   const navigate = useNavigate();
 
   const update = (e) => {
@@ -24,15 +26,22 @@ export default function SignUp({ onSignedUp }) {
     return er;
   };
 
-  const onSubmit = (e) => {
+  const onSubmit = async (e) => {
     e.preventDefault();
     const er = validate();
     setErrors(er);
     if (Object.keys(er).length) return;
-    if (onSignedUp) onSignedUp(form.email);
-    // eslint-disable-next-line no-alert
-    alert('Signed up (stub). You are now signed in.');
-    navigate('/');
+
+    setSubmitting(true);
+    try {
+      const res = await apiSignUp({ name: form.name, email: form.email, password: form.password });
+      if (onSignedUp) onSignedUp(res?.user?.email || form.email);
+      navigate('/');
+    } catch (err) {
+      setErrors(prev => ({ ...prev, email: err.message || 'Sign up failed' }));
+    } finally {
+      setSubmitting(false);
+    }
   };
 
   return (
@@ -63,8 +72,8 @@ export default function SignUp({ onSignedUp }) {
           {errors.password && <div role="alert" className="visually-hidden">{errors.password}</div>}
         </div>
 
-        <button className="btn cta" type="submit" aria-label="Sign Up">
-          <span className="cta-label">Sign Up</span>
+        <button className="btn cta" type="submit" aria-label="Sign Up" disabled={submitting}>
+          <span className="cta-label">{submitting ? 'Creating...' : 'Sign Up'}</span>
           <span className="cta-icon" aria-hidden="true">
             <span className="arrow-shaft"></span>
             <span className="arrow-head"></span>
